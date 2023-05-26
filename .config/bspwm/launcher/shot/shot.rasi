@@ -1,32 +1,37 @@
 /**/
 configuration {
-show-icons: true;
+show-icons: false;
 }
+
+
 @import "~/.config/bspwm/launcher/color-scheme.rasi"
+
+
 * {
   on:               #2be491;
   off:              #dddddd;
-  
+
+  /* General */
   icon-font:                            "feather 18";
   
-  option-6-listview-spacing:              5px;
-  menu-window-padding:                  5px 5px;
-  menu-element-padding:                 20px 20px 20px -10px;
+  option-6-listview-spacing:            5px;
+  menu-window-padding:                  6px 6px;
+  menu-element-padding:                 20px 30px;
 }
 
 #window {
-  width: 222px;
-  height: 79px;
+  width: 275px;
+  height: 86px;
   anchor: south;
   location: south;
   x-offset: 0%;
-  y-offset: -5%;
+  y-offset: -7%;
   border: 0px;
 }
 
 * {
   background-color: @background;
-  text-color: @foreground;
+  text-color: @foreground-light;
   font: @icon-font;
 }
 
@@ -47,7 +52,7 @@ show-icons: true;
 
 #element.selected {
   background-color: @accent;
-  text-color: @background;
+  text-color: @fgselected;
 }
 
 * {
@@ -78,30 +83,16 @@ show-icons: true;
 }
 
 #element.selected {
-  border-color: @accent;
-  text-color: @fg-selected;
+  border-color: @bgselected;
+  text-color: @fgselected;
 }
 
-element.active,
-element.selected.urgent {
-  background-color: @on;
-  text-color: @background;
-  border-color: @on;
+element-text {
+	background-color:							inherit;
+	text-color:										inherit;
 }
 
-element.selected.urgent {
-  background-color: @accent;
-  border-color: @accent;
-}
-
-element.urgent,
-element.selected.active {
-  background-color: @off;
-  text-color: @background;
-  border-color: @off;
-}
-
-element.selected.active {
-  background-color: @accent;
-  border-color: @accent;
+element-icon {
+	background-color:							inherit;
+	size:													20px;
 }

@@ -12,10 +12,10 @@ reconnect() {
 	elif [[ $state == 'connected' ]]; then
 		$NOTIFY -i $ICON/info.png -t 2000 -r 123 "Wifi is Connected"
 	else
-		if [[ $(pgrep -l iwd.sh) ]]; then
-			pkill start_iwd.sh
+		if pgrep -l iwctl.sh &>/dev/null; then
+			pkill iwctl.sh
 		else
-			xterm -class 'iwdmenu' -e ~/.config/bspwm/scripts/iwd.sh rc
+			xterm -class 'iwdmenu' -e ~/.config/bspwm/scripts/iwctl.sh rc
 		fi
 	fi	
 }
@@ -25,9 +25,11 @@ case $1 in
 		reconnect
   ;;
 	dc)
-		~/.config/bspwm/scripts/iwd.sh dc
+		~/.config/bspwm/scripts/iwctl.sh dc
   ;;
   fg)
-		~/.config/bspwm/scripts/iwd.sh fg
+		~/.config/bspwm/scripts/iwctl.sh fg
   ;;
 esac 
+
+exit 0

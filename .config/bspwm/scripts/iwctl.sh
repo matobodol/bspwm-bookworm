@@ -3,7 +3,7 @@ source ~/.config/bspwm/globalrc
 
 ESSID='abc'
 PASS='1sampai15'
-forget='true'
+forget=
 
 if [[ $forget == 'true' ]]; then
 	unset ESSID
@@ -11,27 +11,29 @@ if [[ $forget == 'true' ]]; then
 fi
 
 switch() {
-	[[ $ESSID != $namawifi ]] && sed -i "3 s/ESSID=.*/ESSID='$namawifi/'" $(dirname `realpath $0`)/iwd.sh
-	[[ $PASS != $passwifi ]] && sed -i "4 s/PASS=.*/PASS='$passwifi'/" $(dirname `realpath $0`)/iwd.sh
-	[[ -n $forget ]] && sed -i "5 s/forget.*/forget=/" $(dirname `realpath $0`)/iwd.sh
+	local DIR=$(dirname `realpath $0`)/iwctl.sh
+	
+	[[ $ESSID != $namawifi ]] && sed -i "4 s/ESSID=.*/ESSID='$namawifi/'" $DIR
+	[[ $PASS != $passwifi ]] && sed -i "5 s/PASS=.*/PASS='$passwifi'/" $DIR
+	[[ -n $forget ]] && sed -i "6 s/forget.*/forget=/" $DIR
 }
 
 notify() {
 	local iface=$(iwctl device list | awk '/station/ {print $2}')
 	local state=$(iwctl station $iface show | awk '$1=="State" {print $2}')
 
-	iwctl station $iface connect "$namawifi" --passphrase "$passwifi"
+	iwctl station $iface connect "$namawifi" --passphrase "$passwifi" &>/dev/null
 	
 	if [[ $? == 0 ]]; then
 		$NOTIFY -i $ICON/info.png -t 2300 -r 123 "Wifi Connected" "to $namawifi"
 		switch
 	else
-		iwctl station wlan0 connect-hidden "$namawifi" --passphrase "$passwifi"
+		iwctl station wlan0 connect-hidden "$namawifi" --passphrase "$passwifi" &>/dev/null
 		if [[ $? == 0 ]]; then
 			$NOTIFY -i $ICON/info.png -t 2300 -r 123 "Wifi: Connected" "to $namawifi"
 			switch
 		else
-			iwctl station wlan0 connect "$namawifi"
+			iwctl station wlan0 connect "$namawifi" &>/dev/null
 			if [[ $? == 0 ]]; then
 				$NOTIFY -i $ICON/info.png -t 2300 -r 123 "Wifi: Connected" "to $namawifi"
 				switch
@@ -48,11 +50,7 @@ wifi_connecting() {
 		pct=$(( i * 100 / n ))
 		echo XXX; echo $pct; echo "Menghubungkan..."; echo XXX
 		
-		if [[ $i -eq 1 ]]; then
-			iface=$(iwctl device list | awk '$/station/ {print $2}')
-
-			#iwctl station $iface scan
-		elif [[ $i -eq $(($n - 5 )) ]]; then
+		if [[ $i -eq $(( $n - 5 )) ]]; then
 			notify
 		fi
 		
@@ -81,7 +79,7 @@ forget(){
 			
 		if [[ $? -eq 0 ]]; then
 			$NOTIFY -i $ICON/info.png -t 2300 -r 123 "known-networks $ESSID forget"
-			sed -i "0,/forget.*/s//forget='true'/" $(dirname `realpath $0`)/iwd.sh
+			sed -i "6 s/forget.*//forget='true'/" $(dirname `realpath $0`)/iwctl.sh
 		fi
 		
 	fi
@@ -113,3 +111,4 @@ case $1 in
 	;;
 esac
 
+exit 0
