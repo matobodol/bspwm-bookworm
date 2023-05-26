@@ -51,7 +51,7 @@ install_packages() {
 	PACKAGES+='xserver-xorg-core xserver-xorg-input-libinput xserver-xorg-video-intel x11-xserver-utils x11-xkb-utils x11-utils xinit '
 	
 	# core
-	PACKAGES+='bspwm sxhkd rofi polybar brightnessctl dunst conky xterm scrot i3lock feh imagemagick w3m xsettingsd xdotool libnotify-bin libglib2.0-dev alsa-utils pulseaudio pulseaudio-utils lxpolkit '
+	PACKAGES+='bspwm sxhkd rofi polybar brightnessctl dunst conky xterm scrot i3lock feh imagemagick w3m xsettingsd xdotool alsa-utils pulseaudio pulseaudio-utils lxpolkit libnotify-bin libglib2.0-dev '
 	
 	# utilitas
 	PACKAGES+='thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman ffmpegthumbnailer tumbler w3m cmus'
@@ -62,6 +62,10 @@ install_packages() {
 
 ## setup network with iwd (iwctl)
 setup_iwd(){
+	# install iwd
+	sudo apt install -y iwd
+	info_msg 'setup_iwd: install iwd, gagal'
+	
 	clear
 	# menddapatkan nama interface
 	local interfaceName=$(sudo iw dev | awk '/Interface/ {print $2}')
@@ -75,9 +79,6 @@ setup_iwd(){
 	
 	# mengatur layanan iwd
 	setup_iwd_service(){
-		# install iwd
-		sudo apt install -y iwd
-
 		# membuat configurasi iwd
 		if ! [[ -f /etc/iwd/main.conf ]]; then
 			echo -e "[General]\nEnableNetworkConfiguration=true" | sudo tee /etc/iwd/main.conf
@@ -151,11 +152,11 @@ fi
 ## install picom
 install_picom(){
 	# install dependensi picom
-	local PACKAGES=''
-	PACKAGES+='build-essential libdbus-1-dev libconfig-dev libgl-dev libegl-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson '
-	PACKAGES+='libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-glx0-dev libpixman-1-dev libxcb-render0-dev '
-	PACKAGES+='libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev '
-	sudo apt install -y ${PACKAGES}
+	local DEPS=''
+	DEPS+='build-essential libdbus-1-dev libconfig-dev libgl-dev libegl-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson '
+	DEPS+='libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-glx0-dev libpixman-1-dev libxcb-render0-dev '
+	DEPS+='libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev '
+	sudo apt install -y ${DEPS}
 	info_msg 'install dependensi picom, gagal'
 	
 	# download picom
@@ -177,53 +178,6 @@ install_picom(){
 		ninja -C build install
 		info_msg 'ninja -C build install, gagal'
 	fi
-}
-
-main_menu(){
-	option=(\
-	'setup_bspwm' ': Untuk install dotfiles'\ 
-	'setup_picom' ': Untuk install compositor picom'\ 
-	'optional' ': Untuk install optional packages'\ 
-	'setup_touchpad  ' ': Untuk mengaktifkan tap to click'\ 
-	)
-	menu=$(whiptail --menu 'Pilih Menu : ' --title 'Setup Bspwm On Debian' 12 80 0 "${option[@]}" 3>&1 1>&2 2>&3)
-	
-	case $menu in
-		setup_bspwm)
-			#install_dotfiles
-			install_packages
-			#setup_iwd
-			
-			if [[ $? -eq 0 ]]; then
-				if ! [[ $(sed -n "/alias wm='startx \/usr\/bin\/bspwm'/p" $HOME/.bashrc) ]]; then
-					echo "alias wm='startx /usr/bin/bspwm'" >> $HOME/.bashrc
-				fi
-				
-				clear
-				echo "install dotfiles selesai. Mohon restart kemudian"
-				echo "untuk masuk ke bspwm ketik: wm"
-			fi
-		;;
-		setup_picom)
-			install_picom
-			if [[ $? -eq 0 ]]; then
-				clear
-				echo "install selesai. Restart bspwm untuk menerapkan efek"
-			fi
-		;;
-		optional)
-			optional_packages
-		;;
-		setup_touchpad*)
-			tap_to_click
-			if [[ $(sed -n '/Section/p' /etc/X11/xorg.conf.d/30-touchpad.conf) ]]; then
-				echo "touchpad sudah terconfigurasi."
-			elif [[ $? -eq 0 ]]; then
-				clear
-				echo "setup touchpad selesai."
-			fi
-		;;
-	esac
 }
 
 optional_packages() {
@@ -261,8 +215,51 @@ optional_packages() {
 	fi
 }
 
-if [[ $1 == 'opt' ]]; then
-	optional_packages
-else
-	main_menu
-fi
+main_menu(){
+	option=(\
+	'setup bspwm' ': Untuk install dotfiles'\ 
+	'setup picom' ': Untuk install compositor picom'\ 
+	'optional packages' ': Untuk install optional packages'\ 
+	'setup touchpad  ' ': Untuk mengaktifkan tap to click'\ 
+	)
+	menu=$(whiptail --menu 'Pilih Menu : ' --title 'Setup Bspwm On Debian' 12 80 0 "${option[@]}" 3>&1 1>&2 2>&3)
+	
+	case $menu in
+		'setup bspwm')
+			install_dotfiles
+			install_packages
+			setup_iwd
+			
+			if [[ $? -eq 0 ]]; then
+				if ! [[ $(sed -n "/alias wm='startx \/usr\/bin\/bspwm'/p" $HOME/.bashrc) ]]; then
+					echo "alias wm='startx /usr/bin/bspwm'" >> $HOME/.bashrc
+				fi
+				
+				clear
+				echo "install dotfiles selesai. Mohon restart kemudian"
+				echo "untuk masuk ke bspwm ketik: wm"
+			fi
+		;;
+		'setup picom')
+			install_picom
+			if [[ $? -eq 0 ]]; then
+				clear
+				echo "install selesai. Restart bspwm untuk menerapkan efek"
+			fi
+		;;
+		'optional packages')
+			optional_packages
+		;;
+		'setup touchpad  ')
+			tap_to_click
+			if [[ $(sed -n '/Section/p' /etc/X11/xorg.conf.d/30-touchpad.conf) ]]; then
+				echo "touchpad sudah terconfigurasi."
+			elif [[ $? -eq 0 ]]; then
+				clear
+				echo "setup touchpad selesai."
+			fi
+		;;
+	esac
+}
+
+main_menu
