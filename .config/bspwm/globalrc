@@ -32,7 +32,7 @@ magenta=#B379F2
 red=#FF80C3
 cyan=#64D1E0
 panelForgroundLight=#99A0AD
-panelForgroundDark=#99A0AD
+panelForgroundDark=$panelForgroundLight
 conkyForgroundLight=#F8FF00
 conkyForgroundDark=#2be3fc
 

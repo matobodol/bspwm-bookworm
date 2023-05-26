@@ -49,7 +49,8 @@ URxvt.urlButton:                  1
 
 ! COLOR SCHEME
 *.cursorColor:  #F3F3F3
-*.foreground: #F8F8F2
+*.foreground: #DCDCDC
+! #F8F8F2
 *.background:#282A36
 ! *.background: #252A34
 
