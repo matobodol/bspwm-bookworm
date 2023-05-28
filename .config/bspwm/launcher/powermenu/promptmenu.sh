@@ -53,6 +53,14 @@ case $chosen in
         sleep 0.5
         bash -c $HOME/.config/bspwm/lock.sh
         eval $yes_command
+     elif [[ $yes_command == 'bspc quit' ]]; then
+				pkill picom
+				pkill polybar
+				pkill conky
+				pkill lxpolkit
+				pkill xsettingsd
+				pkill dunst
+				eval $yes_command
     else
 		eval "$yes_command"
     fi

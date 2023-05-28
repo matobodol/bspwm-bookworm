@@ -169,6 +169,8 @@ super + a
 	~/.config/bspwm/launcher/shot/start_shot.sh {menu,focus,pointer}
 
 # wifi
+super + {_,shift + }End
+	~/.config/bspwm/scripts/start_iwd.sh {rc,dc}
 alt + End
 	xterm -e ~/.config/bspwm/scripts/wifi-menu.sh
 

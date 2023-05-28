@@ -1,7 +1,7 @@
 #! /bin/bash
 
 exe="$1"
-[[ -z $1 ]] && exe='full'
+[[ -z $1 ]] && exe='--nofull'
 source $HOME/.config/bspwm/globalrc
 
 part_theme() {
@@ -79,13 +79,13 @@ EOF
 }
 
 case $exe in
-	part_theme)
+	--full )
 	
 		part_theme
 		bspc wm -r
 		
 	;;
-	full)
+	--nofull )
 		# set gtk theme
 		xsettingsd -c $HOME/.config/bspwm/theme/xsettingsd.conf &
 		# polybar

@@ -16,7 +16,7 @@ install_dotfiles(){
 	# update xdg folder user
 	xdg-user-dirs-update
 	info_msg 'xdg-user-dirs-update, gagal'
-	
+
 	# copy dotfile ke home direktory
 	cp -rf {.config,.fonts,.icons,.themes/} $HOME/
 	info_msg 'copying dotfiles ke direktori home gagal.'
@@ -26,7 +26,7 @@ install_dotfiles(){
 	info_msg 'Ekstrak fonts.tar.xz gagal'
 	rm fonts.tar.xz
 	info_msg 'Membersihkan archive fonts gagal.'
-	
+
 	# ekstrak icons
 	cd $HOME/.icons
 	tar -Jxvf icons.tar.xz
@@ -46,16 +46,16 @@ install_dotfiles(){
 install_packages() {
 	local PACKAGES=''
 	PACKAGES+='sudo '
-	
+
 	# x11 minimal
 	PACKAGES+='xserver-xorg-core xserver-xorg-input-libinput xserver-xorg-video-intel x11-xserver-utils x11-xkb-utils x11-utils xinit '
-	
+
 	# core
 	PACKAGES+='bspwm sxhkd rofi polybar brightnessctl dunst conky xterm scrot i3lock feh imagemagick w3m xsettingsd xdotool alsa-utils pulseaudio pulseaudio-utils lxpolkit libnotify-bin libglib2.0-dev '
-	
+
 	# utilitas
 	PACKAGES+='thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman ffmpegthumbnailer tumbler w3m cmus'
-	
+
 	sudo apt install -y ${PACKAGES}
 	info_msg 'install_packages gagal'
 }
@@ -65,35 +65,35 @@ setup_iwd(){
 	# install iwd
 	sudo apt install -y iwd
 	info_msg 'setup_iwd: install iwd, gagal'
-	
+
 	clear
 	# menddapatkan nama interface
 	local interfaceName=$(sudo iw dev | awk '/Interface/ {print $2}')
-	
+
 	# memutuskan sambungan wpa_supplicant
 	if_down(){
 		sudo ifdown $interfaceName
 		info_msg 'Memutuskan sambungan wpa_supplicant, gagal.'
 	}
 	if_down
-	
+
 	# mengatur layanan iwd
 	setup_iwd_service(){
 		# membuat configurasi iwd
 		if ! [[ -f /etc/iwd/main.conf ]]; then
 			echo -e "[General]\nEnableNetworkConfiguration=true" | sudo tee /etc/iwd/main.conf
 		fi
-	
+
 		# menonaktifkan layanan wpa_supplicant
 		sudo systemctl stop wpa_supplicant.service
 		sudo systemctl disable --now wpa_supplicant.service
-	
+
 		# mengaktifkan layanan iwd
 		sudo systemctl enable --now iwd.service
 		sudo systemctl start iwd.service
 	}
 	setup_iwd_service
-	
+
 	# menghubungkan ke wifi
 	connecting(){
 		local SSID PSK status
@@ -102,7 +102,7 @@ setup_iwd(){
 		read -p "Nama Wifi: " SSID
 		echo -e "Kosongkan jika wifi tidak dipassword\n dengan langsung tekan Enter"
 		read -p "Password: " PSK
-		
+
 		# menghubungkan ke ssid terbuka
 		iwctl station ${interfaceName} connect "${SSID}" --passphrase "${PSK}" &>/dev/null
 		# jika gagal, menghubungkan ke ssid tersembunyi
@@ -144,7 +144,7 @@ Section "InputClass"
 	Option "ScrollMethod" "twofinger"
 EndSection
 EOF
-	
+
 	info_msg 'setup tap_to_click gagal.'
 fi
 }
@@ -158,7 +158,7 @@ install_picom(){
 	DEPS+='libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-dpms0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev '
 	sudo apt install -y ${DEPS}
 	info_msg 'install dependensi picom, gagal'
-	
+
 	# download picom
 	if [[ -d picom ]]; then
 		rm -rf picom
@@ -167,14 +167,14 @@ install_picom(){
 		git clone https://github.com/yshui/picom.git && cd picom
 		info_msg 'git clone https://github.com/yshui/picom.git, gagal.'
 		git submodule update --init --recursive
-		
+
 		# compile picom
 		meson setup --buildtype=release . build
 		info_msg 'meson setup --buildtype=release . build, gagal'
-		
+
 		ninja -C build
 		info_msg 'ninja -C build, gagal'
-		
+
 		ninja -C build install
 		info_msg 'ninja -C build install, gagal'
 	fi
@@ -190,19 +190,19 @@ optional_packages() {
 		geany ": Text editor" on \
 		parole ": Video player" on \
 		viewnior ": Image viewer" on \
-		
+
 		#packages cli
 		build-essential ": builder" on \
 		htop ": system monitor (cli)    " on \
 		neofetch ": system info (cli)" on \
 	)
-	
+
 	local msg="\nSelect Optional Packages."
 	# menampilkan daftar menu ke layar menggunakan whiptail
 	local PACKAGES=$(whiptail --separate-output --title "TOOLS AND UTILITIES" \
 		--checklist "$msg" 20 55 10 "${options[@]}" 3>&1 1>&2 2>&3
 	)
-	
+
 	# install menu-menu yg dipilih
 	if [[ -n $PACKAGES ]]; then
 		sudo apt install $PACKAGES
@@ -223,18 +223,18 @@ main_menu(){
 	'setup touchpad  ' ': Untuk mengaktifkan tap to click'\ 
 	)
 	menu=$(whiptail --menu 'Pilih Menu : ' --title 'Setup Bspwm On Debian' 12 80 0 "${option[@]}" 3>&1 1>&2 2>&3)
-	
+
 	case $menu in
 		'setup bspwm')
 			install_dotfiles
 			install_packages
 			setup_iwd
-			
+
 			if [[ $? -eq 0 ]]; then
 				if ! [[ $(sed -n "/alias wm='startx \/usr\/bin\/bspwm'/p" $HOME/.bashrc) ]]; then
 					echo "alias wm='startx /usr/bin/bspwm'" >> $HOME/.bashrc
 				fi
-				
+
 				clear
 				echo "install dotfiles selesai. Mohon restart kemudian"
 				echo "untuk masuk ke bspwm ketik: wm"

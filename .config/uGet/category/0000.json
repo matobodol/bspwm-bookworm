@@ -1,0 +1,222 @@
+{
+	"info": {
+		"relation": {
+			"group": 0,
+			"priority": 1
+		},
+		"category": {
+			"hosts": [
+				".edu",
+				".idv"
+			],
+			"schemes": [
+				"ftps",
+				"magnet"
+			],
+			"file-exts": [
+				"torrent",
+				"metalink"
+			],
+			"active-limit": 3,
+			"finished-limit": 300,
+			"recycled-limit": 300
+		},
+		"common": {
+			"name": "New 0",
+			"folder": "\/home\/id",
+			"connect-timeout": 15,
+			"transmit-timeout": 30,
+			"retry-delay": 6,
+			"retry-limit": 99,
+			"retry-count": 0,
+			"max-connections": 1,
+			"max-upload-speed": 0,
+			"max-download-speed": 0,
+			"timestamp": 1
+		}
+	},
+	"children": [
+		{
+			"info": {
+				"relation": {
+					"group": 72,
+					"priority": 1
+				},
+				"progress": {
+					"complete": 23607272,
+					"total": 23607272,
+					"elapsed": 2,
+					"uploaded": 0,
+					"percent": 100
+				},
+				"log": {
+					"added-time": 1685243226,
+					"completed-time": 1685243614,
+					"messages": [
+					]
+				},
+				"http": {
+					"referrer": "https:\/\/www.pling.com\/dl?file_id=1677915229&file_type=application\/x-xz&file_name=papirus-icon-theme-pink-folders.tar.xz&file_size=23607272&has_torrent=0&project_id=1166289&link_type=download&is_external=false&external_link=null",
+					"redirection-limit": 30
+				},
+				"proxy": {
+					"port": 80,
+					"type": 0
+				},
+				"common": {
+					"name": "papirus-icon-theme-pink-folders.tar.xz",
+					"uri": "https:\/\/ocs-dl.fra1.cdn.digitaloceanspaces.com\/data\/files\/1482459209\/papirus-icon-theme-pink-folders.tar.xz?response-content-disposition=attachment%3B%2520papirus-icon-theme-pink-folders.tar.xz&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=RWJAQUNCHT7V2NCLZ2AL%2F20230528%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230528T030659Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=909cf048c370af071366ea8956f370aa91fa837d9721c5f9236d96e9956dac85",
+					"file": "papirus-icon-theme-pink-folders.tar.xz",
+					"folder": "\/home\/id\/Downloads",
+					"connect-timeout": 15,
+					"transmit-timeout": 30,
+					"retry-delay": 6,
+					"retry-limit": 99,
+					"retry-count": 0,
+					"max-connections": 1,
+					"max-upload-speed": 0,
+					"max-download-speed": 0,
+					"timestamp": 1
+				},
+				"files": {
+					"list": [
+						{
+							"path": "\/home\/id\/Downloads\/papirus-icon-theme-pink-folders.tar.xz",
+							"type": 0,
+							"state": 8,
+							"total": 0,
+							"complete": 0
+						}
+					]
+				}
+			},
+			"children": [
+			]
+		},
+		{
+			"info": {
+				"relation": {
+					"group": 72,
+					"priority": 1
+				},
+				"progress": {
+					"complete": 849920,
+					"total": 849920,
+					"elapsed": 8,
+					"uploaded": 0,
+					"percent": 100
+				},
+				"log": {
+					"added-time": 1685241568,
+					"completed-time": 1685241576,
+					"messages": [
+						{
+							"string": "Resumable",
+							"type": 2,
+							"time": 1685241569
+						}
+					]
+				},
+				"http": {
+					"referrer": "https:\/\/www.pling.com\/dl?file_id=1685221983&file_type=application\/x-xz&file_name=Nordic-darker.tar.xz&file_size=849920&has_torrent=0&project_id=1267246&link_type=download&is_external=false&external_link=null",
+					"redirection-limit": 30
+				},
+				"proxy": {
+					"port": 80,
+					"type": 0
+				},
+				"common": {
+					"name": "Nordic-darker.tar.xz",
+					"uri": "https:\/\/ocs-dl.fra1.cdn.digitaloceanspaces.com\/data\/files\/1539322040\/Nordic-darker.tar.xz?response-content-disposition=attachment%3B%2520Nordic-darker.tar.xz&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=RWJAQUNCHT7V2NCLZ2AL%2F20230528%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230528T023920Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=e1f77feaff726b256242922bc4908d4e95b99f3656f832bad563af8fae8d34ef",
+					"file": "Nordic-darker.tar.xz",
+					"folder": "\/home\/id\/Downloads",
+					"connect-timeout": 15,
+					"transmit-timeout": 30,
+					"retry-delay": 6,
+					"retry-limit": 99,
+					"retry-count": 0,
+					"max-connections": 1,
+					"max-upload-speed": 0,
+					"max-download-speed": 0,
+					"timestamp": 1
+				},
+				"files": {
+					"list": [
+						{
+							"path": "\/home\/id\/Downloads\/Nordic-darker.tar.xz",
+							"type": 0,
+							"state": 8,
+							"total": 0,
+							"complete": 0
+						}
+					]
+				}
+			},
+			"children": [
+			]
+		},
+		{
+			"info": {
+				"relation": {
+					"group": 72,
+					"priority": 1
+				},
+				"progress": {
+					"complete": 851336,
+					"total": 851336,
+					"elapsed": 10,
+					"uploaded": 0,
+					"percent": 100
+				},
+				"log": {
+					"added-time": 1685241327,
+					"completed-time": 1685241338,
+					"messages": [
+						{
+							"string": "Resumable",
+							"type": 2,
+							"time": 1685241332
+						}
+					]
+				},
+				"http": {
+					"referrer": "https:\/\/www.pling.com\/dl?file_id=1685221264&file_type=application\/x-xz&file_name=Nordic-bluish-accent.tar.xz&file_size=851336&has_torrent=0&project_id=1267246&link_type=download&is_external=false&external_link=null",
+					"redirection-limit": 30
+				},
+				"proxy": {
+					"port": 80,
+					"type": 0
+				},
+				"common": {
+					"name": "Nordic-bluish-accent.tar.xz",
+					"uri": "https:\/\/ocs-dl.fra1.cdn.digitaloceanspaces.com\/data\/files\/1539322040\/Nordic-bluish-accent.tar.xz?response-content-disposition=attachment%3B%2520Nordic-bluish-accent.tar.xz&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=RWJAQUNCHT7V2NCLZ2AL%2F20230528%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230528T023503Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=da1e0417ffa5034efdab95a5d8dac73f90f9f0692746059892d79ed60a1fbcc7",
+					"file": "Nordic-bluish-accent.tar.xz",
+					"folder": "\/home\/id\/Downloads",
+					"connect-timeout": 15,
+					"transmit-timeout": 30,
+					"retry-delay": 6,
+					"retry-limit": 99,
+					"retry-count": 0,
+					"max-connections": 1,
+					"max-upload-speed": 0,
+					"max-download-speed": 0,
+					"timestamp": 1
+				},
+				"files": {
+					"list": [
+						{
+							"path": "\/home\/id\/Downloads\/Nordic-bluish-accent.tar.xz",
+							"type": 0,
+							"state": 8,
+							"total": 0,
+							"complete": 0
+						}
+					]
+				}
+			},
+			"children": [
+			]
+		}
+	]
+}
+
