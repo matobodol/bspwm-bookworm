@@ -210,6 +210,7 @@ optional_packages() {
 	fi
 	# jika uget diinstall
 	if [[ $(echo $PACKAGES | grep uget) ]]; then
+		sudo apt install -y curl
 		$(dirname $(realpath $0))/uget-integrator/install_uget_integrator.sh
 		info_msg 'setup uget-integrator, gagal.'
 	fi
